@@ -1,0 +1,39 @@
+Mandelbrot - CS361
+Brian Jopling, brj33
+
+Description:
+    Exports an image of a Mandelbrot.
+
+Input:
+    Args:
+        -SIZE      (positive integer)
+        -THRESHOLD (integer)
+        -XLO       (double)
+        -XHI       (double)
+        -YLO       (double)
+        -YHI       (double)
+        -ITERS     (positive integer)
+    Note: SIZE is the only required arg for this program.
+          ITERS corresponds to the # of iterations this
+          program will run, defaulting to 1 if unspecified.
+          Any other flags left out will assume the value of
+          zero, though that may not be optimal.
+
+Output:
+    Creates a file named brj33.png after execution.
+
+Usage:
+    1. Compile the code using the makefile by running the command:
+       $ make
+    2. Run the suite of benchmark tests by running the script:
+       $ ./benchmark.sh
+    3. Be amazed!
+    4. [Optional] Run manually:
+       $ java -classpath src/main/java/ com.brianjopling.mandelbrot.Main \
+         -SIZE 300 -THRESHOLD 300 -XLO -1.5 -XHI 1.5 -YLO -1.5 -YHI 1.5 \
+         -ITERS 10
+    5. [Optional] Clean up class files:
+       $ make clean
+
+
+
