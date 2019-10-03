@@ -6,16 +6,18 @@ Description:
 
 Input:
     Args:
-        -SIZE      (positive integer)
-        -THRESHOLD (integer)
-        -XLO       (double)
-        -XHI       (double)
-        -YLO       (double)
-        -YHI       (double)
-        -ITERS     (positive integer)
+        -NUMTHREADS (positive integer)
+        -SIZE       (positive integer)
+        -THRESHOLD  (integer)
+        -XLO        (double)
+        -XHI        (double)
+        -YLO        (double)
+        -YHI        (double)
+        -ITERS      (positive integer)
     Note: SIZE is the only required arg for this program.
           ITERS corresponds to the # of iterations this
           program will run, defaulting to 1 if unspecified.
+          NUMTHREADS will default to 1 if unspecified.
           Any other flags left out will assume the value of
           zero, though that may not be optimal.
 
@@ -31,7 +33,7 @@ Usage:
     4. [Optional] Run manually:
        $ java -classpath src/main/java/ com.brianjopling.mandelbrot.Main \
          -SIZE 300 -THRESHOLD 300 -XLO -1.5 -XHI 1.5 -YLO -1.5 -YHI 1.5 \
-         -ITERS 10
+         -ITERS 10 -NUMTHREADS 4
     5. [Optional] Clean up class files:
        $ make clean
 

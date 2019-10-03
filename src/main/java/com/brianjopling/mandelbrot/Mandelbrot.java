@@ -43,8 +43,8 @@ public class Mandelbrot {
         return i;
     }
 
-    private void mandelBrot(double xlo, double xhi, double ylo, double yhi, int wdt, int hgt, int thresh){
-        for (int idx = 0; idx < wdt * hgt; idx++){
+    public void mandelBrot(double xlo, double xhi, double ylo, double yhi, int wdt, int hgt, int thresh, int startRow, int endRow){
+        for (int idx = startRow; idx < endRow * endRow; idx++){
             int x = idx % wdt;
             int y = idx / wdt;
             double xc = xlo + (xhi - xlo) * x / wdt;
@@ -76,31 +76,13 @@ public class Mandelbrot {
         return background;
     }
 
-    public void mandelRun(int size, int thresh, double xlo, double xhi, double ylo, double yhi){
-        long startTime = System.currentTimeMillis();
-        //log("Started at: " + startTime);
-
-        // Driver.
-        mandelBrot(xlo, xhi, ylo, yhi, size, size, thresh);
-
-        long endTime = System.currentTimeMillis();
-        //log("Completed at: " + endTime);
-        long totalRuntime = endTime - startTime;
-        log("Mandelbrot Computation Runtime: " + totalRuntime + "ms");
-
-        draw();
-        output();
-
-    }
-
-    private void output() {
+    protected void output() {
         try {
             ImageIO.write(image, "png", new File("brj33.png"));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        //log("Wrote to file at: " + System.currentTimeMillis());
     }
 
     private void addToArray(int x, int y, Color c){
@@ -111,7 +93,7 @@ public class Mandelbrot {
         }
     }
 
-    private void draw() {
+    protected void draw() {
         for (int x = 0; x < size; x++){
             for (int y = 0; y < size; y++){
                 image.setRGB(x, y, pixels[x][y].getRGB());
@@ -119,7 +101,4 @@ public class Mandelbrot {
         }
     }
 
-    private void log(String str){
-        System.out.println(str);
-    }
 }
