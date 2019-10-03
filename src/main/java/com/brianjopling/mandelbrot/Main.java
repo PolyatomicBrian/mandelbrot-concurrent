@@ -1,5 +1,8 @@
 package com.brianjopling.mandelbrot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     /* Initialized via parseArgs */
@@ -36,45 +39,54 @@ public class Main {
 
     private static void performThreadedComputation(Mandelbrot mb) {
         /* Gives each thread a set of rows to perform the computations for. */
-        int div = size / numThreads;
-        int startRow = 0;
-        int endRow = 0;
+        int div = (size * size) / numThreads;
+        int startPix = 0;
+        int endPix = 0;
+        List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < numThreads; i++){
-            endRow = div * (i+1);
-            if (i == numThreads - 1 && div * numThreads < size){
-                /* Check if we can't evenly divide the total number of rows by
+            Thread t;
+            endPix = div * (i+1);
+            if (i == numThreads - 1 && div * numThreads < (size * size)){
+                /* Check if we can't evenly divide the total number of pixels by
                    the number of threads. If this is the case, and the last
                    thread is to be created, then give the thread an additional
-                   row (the last one).
+                   pixel (the last one).
                  */
-                createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startRow, endRow+1);
+                t = createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startPix, endPix+1);
             }else {
-                createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startRow, endRow);
+                t = createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startPix, endPix);
             }
-            startRow = endRow+1;
+            threads.add(t);
+            startPix = endPix;
+        }
+
+        // Join all the threads.
+        for (Thread t : threads){
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private static void createMandelThread(Mandelbrot mb, double xlo, double xhi, double ylo, double yhi, int size, int thresh, int startRow, int endRow) {
-        Thread t = new Thread(new MandelThread(mb, xlo, xhi, ylo, yhi, size, size, thresh, startRow, endRow));
+    private static Thread createMandelThread(Mandelbrot mb, double xlo, double xhi, double ylo, double yhi, int size, int thresh, int startPix, int endPix) {
+        Thread t = new Thread(new MandelThread(mb, xlo, xhi, ylo, yhi, size, size, thresh, startPix, endPix));
         t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        return t;
     }
 
     private static void parseArgs(String[] args) {
         /* Note: size is the only required flag here.
-         *       Any flag not passed will default to 0.
+         *       numthreads & iters will default to 1.
+         *       Remaining flags not passed will default to 0.
          */
         int i = 0;
         while (i < args.length && args[i].startsWith("-")) {
             String arg = args[i++];
 
             switch (arg) {
-                case "-numThreads":
+                case "-NUMTHREADS":
                     numThreads = Integer.parseInt(args[i++]);
                     break;
                 case "-SIZE":

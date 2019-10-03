@@ -12,11 +12,11 @@ public class MandelThread implements Runnable {
     private final int size;
     private final int size1;
     private final int thresh;
-    private final int startRow;
-    private final int endRow;
+    private final int startPix;
+    private final int endPix;
 
-    public MandelThread(Mandelbrot mandelbrot, double xlo, double xhi, double ylo, double yhi, int size, int size1, int thresh, int startRow, int endRow) {
-        mb = mandelbrot;
+    public MandelThread(Mandelbrot mandelbrot, double xlo, double xhi, double ylo, double yhi, int size, int size1, int thresh, int startPix, int endPix) {
+        this.mb = mandelbrot;
         this.xlo = xlo;
         this.xhi = xhi;
         this.ylo = ylo;
@@ -24,13 +24,13 @@ public class MandelThread implements Runnable {
         this.size = size;
         this.size1 = size1;
         this.thresh = thresh;
-        this.startRow = startRow;
-        this.endRow = endRow;
+        this.startPix = startPix;
+        this.endPix = endPix;
     }
 
     @Override
     public void run() {
-        mb.mandelBrot(xlo, xhi, ylo, yhi, size, size1, thresh, startRow, endRow);
+        mb.mandelBrot(xlo, xhi, ylo, yhi, size, size1, thresh, startPix, endPix);
     }
 
 }
