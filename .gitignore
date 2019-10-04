@@ -2,6 +2,7 @@
 build/*
 given/*
 test.png
+brj33*.png
 
 # MacOS
 **/.DS_Store

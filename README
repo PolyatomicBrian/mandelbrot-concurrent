@@ -6,23 +6,29 @@ Description:
 
 Input:
     Args:
+        -SIZE       (positive integer)[REQUIRED]
         -NUMTHREADS (positive integer)
-        -SIZE       (positive integer)
         -THRESHOLD  (integer)
         -XLO        (double)
         -XHI        (double)
         -YLO        (double)
         -YHI        (double)
         -ITERS      (positive integer)
+        -SUFFIX     (String)
     Note: SIZE is the only required arg for this program.
           ITERS corresponds to the # of iterations this
           program will run, defaulting to 1 if unspecified.
           NUMTHREADS will default to 1 if unspecified.
+          SUFFIX corresponds to the suffix of the outputted
+          filename; it defaults to empty string if unspecified.
           Any other flags left out will assume the value of
           zero, though that may not be optimal.
 
 Output:
     Creates a file named brj33.png after execution.
+    If SUFFIX is provided, the filename will be named
+    brj33-SUFFIX.png, where SUFFIX corresponds to the
+    specified argument.
 
 Usage:
     1. Compile the code using the makefile by running the command:
@@ -33,7 +39,7 @@ Usage:
     4. [Optional] Run manually:
        $ java -classpath src/main/java/ com.brianjopling.mandelbrot.Main \
          -SIZE 300 -THRESHOLD 300 -XLO -1.5 -XHI 1.5 -YLO -1.5 -YHI 1.5 \
-         -ITERS 10 -NUMTHREADS 4
+         -ITERS 10 -NUMTHREADS 4 -SUFFIX testing
     5. [Optional] Clean up class files:
        $ make clean
 

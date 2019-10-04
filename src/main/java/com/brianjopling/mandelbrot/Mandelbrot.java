@@ -11,19 +11,24 @@ public class Mandelbrot {
 
     /* = Vars = */
 
+    private final String filePrefix = "brj33";
+    private final String fileExt = "png";
+
     private int type = BufferedImage.TYPE_INT_ARGB;
 
-    private int size;             // Initialized by Constructor
-    private BufferedImage image;  // Initialized by Constructor
-    private Color[][] pixels;     // Initialized by Constructor
+    private int size;               // Initialized by Constructor
+    private BufferedImage image;    // Initialized by Constructor
+    private Color[][] pixels;       // Initialized by Constructor
+    private String fileSuffix = ""; // Initialized by Constructor
 
 
     /* = Constructor = */
 
-    public Mandelbrot(int size){
+    public Mandelbrot(int size, String fileSuffix){
         this.size = size;
         this.image = new BufferedImage(size, size, type);
         this.pixels = new Color[size][size];
+        this.fileSuffix = fileSuffix;
     }
 
 
@@ -77,12 +82,21 @@ public class Mandelbrot {
     }
 
     protected void output() {
+        String filename = getFileName();
         try {
-            ImageIO.write(image, "png", new File("brj33.png"));
+            ImageIO.write(image, "png", new File(filename));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getFileName() {
+        String filename = filePrefix + "." + fileExt;
+        if (!fileSuffix.isEmpty()){
+            filename = filePrefix + "-" + fileSuffix + "." + fileExt;
+        }
+        return filename;
     }
 
     private void addToArray(int x, int y, Color c){

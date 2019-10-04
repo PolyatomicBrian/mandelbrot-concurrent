@@ -14,14 +14,18 @@ public class Main {
     private static double ylo;
     private static double yhi;
     private static int iters = 1;
+    private static String fileSuffix = "";
+
 
     public static void main(String[] args) {
 
         parseArgs(args);
 
-        for (int i = 0; i < iters; i++) {
+        long[] runtimes = new long[iters];
 
-            Mandelbrot mb = new Mandelbrot(size);
+        Mandelbrot mb = new Mandelbrot(size, fileSuffix);
+
+        for (int i = 0; i < iters; i++) {
 
             long startTime = System.currentTimeMillis();
 
@@ -30,11 +34,25 @@ public class Main {
             long endTime = System.currentTimeMillis();
             long totalRuntime = endTime - startTime;
             log("Mandelbrot Computation Runtime: " + totalRuntime + "ms");
-
-            mb.draw();
-            mb.output();
+            runtimes[i] = totalRuntime;
 
         }
+        if (iters > 1) {
+            float avg = computeAverageRuntime(runtimes);
+            log("Average runtime across " + iters + " iterations using " +
+                    numThreads + " threads: " + avg + "ms");
+        }
+        mb.draw();
+        mb.output();
+    }
+
+    private static float computeAverageRuntime(long[] runtimes) {
+        float mean = 0;
+        for (long l : runtimes){
+            mean += l;
+        }
+        mean /= runtimes.length;
+        return mean;
     }
 
     private static void performThreadedComputation(Mandelbrot mb) {
@@ -88,6 +106,9 @@ public class Main {
             switch (arg) {
                 case "-NUMTHREADS":
                     numThreads = Integer.parseInt(args[i++]);
+                    break;
+                case "-SUFFIX":
+                    fileSuffix = args[i++];
                     break;
                 case "-SIZE":
                     size = Integer.parseInt(args[i++]);
