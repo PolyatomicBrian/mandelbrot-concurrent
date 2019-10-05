@@ -5,32 +5,30 @@ import java.awt.*;
 public class MandelThread implements Runnable {
 
     Mandelbrot mb;
+    private final int threadId;
+    private final int numThreads;
     private final double xlo;
     private final double xhi;
     private final double ylo;
     private final double yhi;
     private final int size;
-    private final int size1;
     private final int thresh;
-    private final int startPix;
-    private final int endPix;
 
-    public MandelThread(Mandelbrot mandelbrot, double xlo, double xhi, double ylo, double yhi, int size, int size1, int thresh, int startPix, int endPix) {
+    public MandelThread(Mandelbrot mandelbrot, int threadId, int numThreads, double xlo, double xhi, double ylo, double yhi, int size, int thresh) {
         this.mb = mandelbrot;
+        this.threadId = threadId;
+        this.numThreads = numThreads;
         this.xlo = xlo;
         this.xhi = xhi;
         this.ylo = ylo;
         this.yhi = yhi;
         this.size = size;
-        this.size1 = size1;
         this.thresh = thresh;
-        this.startPix = startPix;
-        this.endPix = endPix;
     }
 
     @Override
     public void run() {
-        mb.mandelBrot(xlo, xhi, ylo, yhi, size, size1, thresh, startPix, endPix);
+        mb.mandelBrot(threadId, numThreads, xlo, xhi, ylo, yhi, size, size, thresh);
     }
 
 }

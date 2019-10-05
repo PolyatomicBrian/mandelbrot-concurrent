@@ -56,26 +56,10 @@ public class Main {
     }
 
     private static void performThreadedComputation(Mandelbrot mb) {
-        /* Gives each thread a set of pixels to perform the computations for. */
-        int div = (size * size) / numThreads;
-        int startPix = 0;
-        int endPix = 0;
         List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < numThreads; i++){
-            Thread t;
-            endPix = div * (i+1);
-            if (i == numThreads - 1 && div * numThreads < (size * size)){
-                /* Check if we can't evenly divide the total number of pixels by
-                   the number of threads. If this is the case, and the last
-                   thread is to be created, then give the thread an additional
-                   pixel (the last one).
-                 */
-                t = createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startPix, endPix+1);
-            }else {
-                t = createMandelThread(mb, xlo, xhi, ylo, yhi, size, threshold, startPix, endPix);
-            }
+            Thread t = createMandelThread(mb, i, xlo, xhi, ylo, yhi, size, threshold);
             threads.add(t);
-            startPix = endPix;
         }
 
         // Join all the threads.
@@ -88,8 +72,8 @@ public class Main {
         }
     }
 
-    private static Thread createMandelThread(Mandelbrot mb, double xlo, double xhi, double ylo, double yhi, int size, int thresh, int startPix, int endPix) {
-        Thread t = new Thread(new MandelThread(mb, xlo, xhi, ylo, yhi, size, size, thresh, startPix, endPix));
+    private static Thread createMandelThread(Mandelbrot mb, int threadId, double xlo, double xhi, double ylo, double yhi, int size, int thresh) {
+        Thread t = new Thread(new MandelThread(mb, threadId, numThreads, xlo, xhi, ylo, yhi, size, thresh));
         t.start();
         return t;
     }

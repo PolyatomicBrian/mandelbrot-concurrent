@@ -48,8 +48,8 @@ public class Mandelbrot {
         return i;
     }
 
-    public void mandelBrot(double xlo, double xhi, double ylo, double yhi, int wdt, int hgt, int thresh, int startPix, int endPix){
-        for (int idx = startPix; idx < endPix; idx++){
+    public void mandelBrot(int threadId, int numThreads, double xlo, double xhi, double ylo, double yhi, int wdt, int hgt, int thresh){
+        for (int idx = threadId; idx < wdt*hgt; idx += numThreads){
             int x = idx % wdt;
             int y = idx / wdt;
             double xc = xlo + (xhi - xlo) * x / wdt;
