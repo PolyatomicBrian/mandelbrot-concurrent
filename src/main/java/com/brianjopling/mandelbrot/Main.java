@@ -56,7 +56,7 @@ public class Main {
     }
 
     private static void performThreadedComputation(Mandelbrot mb) {
-        /* Gives each thread a set of rows to perform the computations for. */
+        /* Gives each thread a set of pixels to perform the computations for. */
         int div = (size * size) / numThreads;
         int startPix = 0;
         int endPix = 0;
