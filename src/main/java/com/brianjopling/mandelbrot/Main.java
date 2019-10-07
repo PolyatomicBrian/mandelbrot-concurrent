@@ -119,9 +119,22 @@ public class Main {
         }
 
         if (size <= 0){
-            log("size must be greater than zero!");
+            log("SIZE must be greater than zero!");
             System.exit(1);
         }
+        if (numThreads <= 0){
+            log("NUMTHREADS must be greater than zero!");
+            System.exit(2);
+        }
+        if (threshold <= 0){
+            log("THRESHOLD must be greater than zero!");
+            System.exit(3);
+        }
+        if (iters <= 0){
+            log("ITERS must be greater than zero!");
+            System.exit(4);
+        }
+
 
     }
 
